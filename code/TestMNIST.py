@@ -1,7 +1,12 @@
 import tensorflow as tf
 from tensorflow.python.keras.datasets import mnist
 from tensorflow.python.keras import backend as K
-from AlexNet import AlexNet
+from keras.LeNet import LeNet
+from keras.AlexNet import AlexNet
+from keras.GoogLeNet import SimpleGoogLeNet
+
+# ============ Multi-GPU ==========
+from multi_gpu import to_multi_gpu
 
 if __name__=="__main__":
     # input image dimensions
@@ -34,9 +39,9 @@ if __name__=="__main__":
     y_train = tf.keras.utils.to_categorical(y_train, num_classes)
     y_test = tf.keras.utils.to_categorical(y_test, num_classes)
 
-    #model = LeNet((img_rows,img_cols,1), num_classes)
-    model = AlexNet((img_rows,img_cols,1), num_classes)
-
+    model = LeNet((img_rows,img_cols,1), num_classes)
+    #model = SimpleGoogLeNet((img_rows,img_cols,1), num_classes)
+    #model = to_multi_gpu(model, n_gpus=2)
     model.compile(loss=tf.keras.losses.categorical_crossentropy,
                   optimizer=tf.keras.optimizers.Adadelta(),
                   metrics=['accuracy'])
