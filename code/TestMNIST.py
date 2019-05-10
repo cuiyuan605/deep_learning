@@ -4,11 +4,15 @@ from tensorflow.python.keras import backend as K
 from keras.LeNet import LeNet
 from keras.AlexNet import AlexNet
 from keras.GoogLeNet import SimpleGoogLeNet
-
-# ============ Multi-GPU ==========
-from multi_gpu import to_multi_gpu
+import os
 
 if __name__=="__main__":
+    #os.environ["CUDA_VISIBLE_DEVICES"]="1" # 使用编号为1号的GPU
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    config.gpu_options.per_process_gpu_memory_fraction = 1.0 # 每个GPU显存上界控制在60%以内
+    session = tf.Session(config=config)
+
     # input image dimensions
     img_rows = 28
     img_cols =28
@@ -39,9 +43,9 @@ if __name__=="__main__":
     y_train = tf.keras.utils.to_categorical(y_train, num_classes)
     y_test = tf.keras.utils.to_categorical(y_test, num_classes)
 
-    model = LeNet((img_rows,img_cols,1), num_classes)
-    #model = SimpleGoogLeNet((img_rows,img_cols,1), num_classes)
-    #model = to_multi_gpu(model, n_gpus=2)
+    #model = LeNet((img_rows,img_cols,1), num_classes)
+    model = SimpleGoogLeNet((img_rows,img_cols,1), num_classes)
+
     model.compile(loss=tf.keras.losses.categorical_crossentropy,
                   optimizer=tf.keras.optimizers.Adadelta(),
                   metrics=['accuracy'])
