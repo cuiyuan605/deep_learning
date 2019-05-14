@@ -24,7 +24,7 @@ def Inception(x,nb_filter):
     branch3x3 = Conv2d_BN(branch3x3,nb_filter,(3,3),padding='same',strides=(1,1),name=None)
 
     branch5x5 = Conv2d_BN(x,nb_filter,(1,1),padding='same',strides=(1,1),name=None)
-    branch5x5 = Conv2d_BN(branch5x5,nb_filter,(1,1),padding='same',strides=(1,1),name=None)
+    branch5x5 = Conv2d_BN(branch5x5,nb_filter,(5,5),padding='same',strides=(1,1),name=None)
 
     branchpool = MaxPooling2D(pool_size=(3,3),strides=(1,1),padding='same')(x)
     branchpool = Conv2d_BN(branchpool,nb_filter,(1,1),padding='same',strides=(1,1),name=None)
